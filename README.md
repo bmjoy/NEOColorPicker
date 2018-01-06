@@ -6,7 +6,7 @@ This is a simple color picker to be used in Unity.
 Currently it supports RGB, HSV and the hexadecimal codes.
 
 ## How to add
-Currently there are no packages, but you can just clone this repository into your project.
+The easiest way is to download the latest Unity Package from the [Releases page](https://github.com/NelsonWilliam/NEOColorPicker/releases/) and drag it into your project. Alternatively you can just clone this repository into a folder in your project's Assets.
 
 To add the color picker to a scene, just drag the Color Picker prefab (found in the Prefabs folder) into a Canvas. You can easily modify the UI elements to suit your needs.
 
@@ -15,7 +15,7 @@ To add the color picker to a scene, just drag the Color Picker prefab (found in 
 Don't worry that the color picker will appear white and without all the sliders in the Editor – they are created at runtime. Those sliders are just prefabs in the Prefabs folder and can also be edited to suit your needs.
 
 ## How to use
-To get or set the currently selected color, just use the color picker's `CurrentColor` property. Alternatively, you can add listeners to the `onColorChanged` event (via code or directly through the Inspector) to be called whenever the color changes.
+To get or set the currently selected color, just use the color picker's `CurrentColor` property. Alternatively, you can add listeners to the `onColorChanged` event (via code or directly through the Inspector) and those will be called whenever the color changes.
 
 ![Inspector](https://user-images.githubusercontent.com/6721656/34644379-b04ab15a-f31c-11e7-85fe-c09f3eeea9cd.png)
 
