@@ -69,6 +69,7 @@ namespace NEO {
             }
             set {
                 multiColor = new MultiColor(value);
+                UpdateAll();
             }
         }
 
@@ -105,7 +106,7 @@ namespace NEO {
         }
 
         private void Start() {
-            CurrentColor = initialColor;
+            multiColor = new MultiColor(initialColor);
 
             //Main sliders
             mainBoxSlider.Initialize(ColorField.Saturation, ColorField.Value);
