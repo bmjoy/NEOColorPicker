@@ -22,4 +22,4 @@ SOFTWARE.
 
 ----
 
-The files BoxSlider.cs and BoxSliderEditor.cs originally belong to Judah Perez, 2016, under the same MIT License originally found in https://github.com/judah4/HSV-Color-Picker-Unity/.
+The files BoxSlider.cs and BoxSliderEditor.cs were originally made by Judah Perez, 2016, under the same MIT License originally found in https://github.com/judah4/HSV-Color-Picker-Unity/.
