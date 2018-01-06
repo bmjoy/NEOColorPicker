@@ -336,7 +336,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 487821597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9289c18d195d0d549ac02db6468cc0fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 75c2f0b6d91f65e42bd5cb2281df9394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!23 &487821599
@@ -588,7 +588,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 765867047}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d638dda9e401e5c4084f64dac4501da6, type: 3}
+  m_Script: {fileID: 11500000, guid: 960831ccc0d02d8469d9c9c51cc2e6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   colorPicker: {fileID: 1101224575}
@@ -603,7 +603,6 @@ GameObject:
   - component: {fileID: 859183418}
   - component: {fileID: 859183417}
   - component: {fileID: 859183416}
-  - component: {fileID: 859183415}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -611,18 +610,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &859183415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 859183414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1997211142, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ForceModuleActive: 0
 --- !u!114 &859183416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -803,11 +790,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 2090454929}
     m_Modifications:
-    - target: {fileID: 114639440216798904, guid: 41fe539476cb8af438a11c167a21d83c,
-        type: 2}
-      propertyPath: onColorChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 224213531647417090, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -941,7 +923,7 @@ Prefab:
     - target: {fileID: 114825242748368006, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
       propertyPath: m_Text
-      value: '#AABBCCDD'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 224653724353062288, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
@@ -1021,7 +1003,7 @@ Prefab:
     - target: {fileID: 224951655117351224, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -30.00026
       objectReference: {fileID: 0}
     - target: {fileID: 224951655117351224, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
@@ -1031,7 +1013,7 @@ Prefab:
     - target: {fileID: 224951655117351224, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 40.00052
       objectReference: {fileID: 0}
     - target: {fileID: 224702597096940358, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
@@ -1051,7 +1033,7 @@ Prefab:
     - target: {fileID: 224702597096940358, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -30.00026
       objectReference: {fileID: 0}
     - target: {fileID: 224702597096940358, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
@@ -1061,7 +1043,7 @@ Prefab:
     - target: {fileID: 224702597096940358, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 40.00052
       objectReference: {fileID: 0}
     - target: {fileID: 224341889134542262, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
@@ -1081,7 +1063,7 @@ Prefab:
     - target: {fileID: 224341889134542262, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -30.00026
       objectReference: {fileID: 0}
     - target: {fileID: 224341889134542262, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
@@ -1091,7 +1073,7 @@ Prefab:
     - target: {fileID: 224341889134542262, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 40.00052
       objectReference: {fileID: 0}
     - target: {fileID: 224375945359333184, guid: 41fe539476cb8af438a11c167a21d83c,
         type: 2}
@@ -1177,41 +1159,6 @@ Prefab:
         type: 2}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114639440216798904, guid: 41fe539476cb8af438a11c167a21d83c,
-        type: 2}
-      propertyPath: onColorChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114639440216798904, guid: 41fe539476cb8af438a11c167a21d83c,
-        type: 2}
-      propertyPath: onColorChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114639440216798904, guid: 41fe539476cb8af438a11c167a21d83c,
-        type: 2}
-      propertyPath: onColorChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetColor
-      objectReference: {fileID: 0}
-    - target: {fileID: 114639440216798904, guid: 41fe539476cb8af438a11c167a21d83c,
-        type: 2}
-      propertyPath: onColorChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 114639440216798904, guid: 41fe539476cb8af438a11c167a21d83c,
-        type: 2}
-      propertyPath: initialColor.rgba
-      value: 4293532292
-      objectReference: {fileID: 0}
-    - target: {fileID: 114639440216798904, guid: 41fe539476cb8af438a11c167a21d83c,
-        type: 2}
-      propertyPath: onColorChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114639440216798904, guid: 41fe539476cb8af438a11c167a21d83c,
-        type: 2}
-      propertyPath: onColorChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 41fe539476cb8af438a11c167a21d83c, type: 2}
