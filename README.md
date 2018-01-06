@@ -3,10 +3,10 @@ This is a simple color picker to be used in Unity.
 
 ![NEOColorPicker](https://user-images.githubusercontent.com/6721656/34644375-a5a6964c-f31c-11e7-880c-21e592988ce6.png)
 
-Currently it supports RGB, HSV and the hexadecimal codes.
+Currently, it supports RGB, HSV, and the hexadecimal codes.
 
 ## How to add
-The easiest way is to download the latest Unity Package from the [Releases page](https://github.com/NelsonWilliam/NEOColorPicker/releases/) and drag it into your project. Alternatively you can just clone this repository into a folder in your project's Assets.
+The easiest way is to download the latest Unity Package from the [Releases page](https://github.com/NelsonWilliam/NEOColorPicker/releases/) and drag it into your project. Alternatively, you can just clone this repository into a folder in your project's Assets.
 
 To add the color picker to a scene, just drag the Color Picker prefab (found in the Prefabs folder) into a Canvas. You can easily modify the UI elements to suit your needs.
 
@@ -19,11 +19,11 @@ To get or set the currently selected color, just use the color picker's `Current
 
 ![Inspector](https://user-images.githubusercontent.com/6721656/34644379-b04ab15a-f31c-11e7-85fe-c09f3eeea9cd.png)
 
-An exemple scene can be found in the Example folder.
+An example scene can be found in the Example folder.
 
 ## Credits
 * The BoxSlider was originally created by Judah Perez for his [HSV-Color-Picker-Unity](https://github.com/judah4/HSV-Color-Picker-Unity) and is also licensed under the MIT License.
-* The extensions for bypassing UI element's events like `onValueChanged` where originally made by "floky" and "_Daniel_" in [this Unity Forum thread](https://forum.unity.com/threads/change-the-value-of-a-toggle-without-triggering-onvaluechanged.275056/).
+* The extensions for bypassing UI element's events like `onValueChanged` were originally made by "floky" and "_Daniel_" in [this Unity Forum thread](https://forum.unity.com/threads/change-the-value-of-a-toggle-without-triggering-onvaluechanged.275056/).
 
 ## License
 [MIT](/LICENSE.md)
