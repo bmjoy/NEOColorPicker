@@ -3,6 +3,8 @@ This is a simple color picker to be used in Unity.
 
 ![NEOColorPicker](https://user-images.githubusercontent.com/6721656/34644375-a5a6964c-f31c-11e7-880c-21e592988ce6.png)
 
+Currently it supports RGB, HSV and the hexadecimal codes.
+
 ## How to add
 Currently there are no packages, but you can just clone this repository into your project.
 
