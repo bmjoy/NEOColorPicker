@@ -109,7 +109,7 @@ namespace NEO {
         public Color32 ToRGB32(byte alpha = Color32Extensions.MAX) {
             return ToRGB(alpha / (float)Color32Extensions.MAX);
         }
-
+        
     }
 
 }

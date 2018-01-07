@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI;
 
-public static class UIEventSyncExtensions {
+public static class UIEventExtensions {
 
     //The methods below where originally created by "_Daniel_" and "floky"
     //on thread https://forum.unity.com/threads/change-the-value-of-a-toggle-without-triggering-onvaluechanged.275056/.
@@ -37,7 +37,6 @@ public static class UIEventSyncExtensions {
     public static void SetValue(this InputField instance, string value,
         bool ignoreOnValueChanged = false, bool ignoreOnEndEdit = true) {
 
-
         var originalOnValueChanged = instance.onValueChanged;
         var originalOnEndEdit = instance.onEndEdit;
         if (ignoreOnValueChanged) instance.onValueChanged = emptyInputFieldOnChangeEvent;
@@ -47,4 +46,13 @@ public static class UIEventSyncExtensions {
         instance.onEndEdit = originalOnEndEdit;
     }
 
+    static Text.CullStateChangedEvent emptyCullStateChangedEvent = new Text.CullStateChangedEvent();
+    public static void SetValue(this Text instance, object value,
+        bool ignoreCullStateChanged = false) {
+
+        var originalCullStateChanged = instance.onCullStateChanged;
+        if (ignoreCullStateChanged) instance.onCullStateChanged = emptyCullStateChangedEvent;
+        instance.text = value.ToString();
+        instance.onCullStateChanged = originalCullStateChanged;
+    }
 }
