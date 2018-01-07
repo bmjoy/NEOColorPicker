@@ -55,7 +55,7 @@ namespace NEO {
 
             //Currently only supports Saturation x Value
             if (fieldX == ColorField.Saturation && fieldY == ColorField.Value) {
-                sliderBackground.texture = TextureGenerator.GenerateHSVBox(colorPicker.MultiColor.HSV.h);
+                sliderBackground.texture = TextureGenerator.GenerateHSVBox(colorPicker.MultiColor.HSV.H);
             }
         }
 

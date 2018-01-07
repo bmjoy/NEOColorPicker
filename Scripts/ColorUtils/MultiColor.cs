@@ -69,13 +69,13 @@ namespace NEO {
                     RGBA32.a = (byte)value; currentMode = Mode.RGBA32; if (recalculate) Recalculate();
                     break;
                 case ColorField.Hue:
-                    HSV.h = value; currentMode = Mode.HSV; if (recalculate) Recalculate();
+                    HSV.H = value; currentMode = Mode.HSV; if (recalculate) Recalculate();
                     break;
                 case ColorField.Saturation:
-                    HSV.s = value; currentMode = Mode.HSV; if (recalculate) Recalculate();
+                    HSV.S = value; currentMode = Mode.HSV; if (recalculate) Recalculate();
                     break;
                 case ColorField.Value:
-                    HSV.v = value; currentMode = Mode.HSV; if (recalculate) Recalculate();
+                    HSV.V = value; currentMode = Mode.HSV; if (recalculate) Recalculate();
                     break;
             }
         }
@@ -91,11 +91,11 @@ namespace NEO {
                 case ColorField.Alpha32:
                     return RGBA32.a;
                 case ColorField.Hue:
-                    return HSV.h;
+                    return HSV.H;
                 case ColorField.Saturation:
-                    return HSV.s;
+                    return HSV.S;
                 case ColorField.Value:
-                    return HSV.v; ;
+                    return HSV.V; ;
                 default:
                     throw new NotSupportedException();
             }

@@ -109,19 +109,19 @@ namespace NEO {
                         break;
                     case ColorField.Saturation:
                         tempHSV = currentHSV;
-                        tempHSV.s = ColorField.Saturation.Min();
+                        tempHSV.S = ColorField.Saturation.Min();
                         rgba32A = tempHSV.ToRGB(rgba32A.a);
                         tempHSV = currentHSV;
-                        tempHSV.s = ColorField.Saturation.Max();
+                        tempHSV.S = ColorField.Saturation.Max();
                         rgba32B = tempHSV.ToRGB(rgba32A.a);
                         sliderBackground.texture = TextureGenerator.GenerateGradient(rgba32A, rgba32B, vertical: vertical);
                         break;
                     case ColorField.Value:
                         tempHSV = currentHSV;
-                        tempHSV.v = ColorField.Value.Min();
+                        tempHSV.V = ColorField.Value.Min();
                         rgba32A = tempHSV.ToRGB(rgba32A.a);
                         tempHSV = currentHSV;
-                        tempHSV.v = ColorField.Value.Max();
+                        tempHSV.V = ColorField.Value.Max();
                         rgba32B = tempHSV.ToRGB(rgba32A.a);
                         sliderBackground.texture = TextureGenerator.GenerateGradient(rgba32A, rgba32B, vertical: vertical);
                         break;
