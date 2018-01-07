@@ -13,8 +13,8 @@ namespace NEO {
         public bool showAlphaSlider = false;
 
         [Space(8)]
-        [Tooltip("This event is sent everytime the selected color changes. "
-            + "This can be called many times when the user moves sliders.")]
+        [Tooltip("This event is sent when user selects a different color in the "
+            + "slides, or when the the color is changed through code.")]
         public ColorChangedEvent onColorChanged = new ColorChangedEvent();
 
         [Header("Components")]
@@ -62,6 +62,7 @@ namespace NEO {
 
         /// <summary>
         /// The currently selected color.
+        /// Changing it manually will always trigger onColorChanged.
         /// </summary>
         public Color CurrentColor {
             get {
@@ -69,7 +70,7 @@ namespace NEO {
             }
             set {
                 multiColor = new MultiColor(value);
-                UpdateAll();
+                UpdateAll(forceEvent: true);
             }
         }
 
@@ -163,17 +164,14 @@ namespace NEO {
             if (recalculate) UpdateAll();
         }
 
-        private void UpdateAll(bool sendEvent = true) {
+        private void UpdateAll(bool forceEvent = false) {
             UpdateSliders();
             UpdateBottomBar();
 
-            //Send the event if the color has changed
-            if (sendEvent) {
-                if (!lastColor.HasValue || MultiColor.RGBA32 != lastColor) {
-                    onColorChanged.Invoke(MultiColor.RGBA32);
-                }
+            bool changedColor = (!lastColor.HasValue || MultiColor.RGBA32 != lastColor);
+            if (forceEvent || changedColor) {
+                onColorChanged.Invoke(MultiColor.RGBA32);
             }
-
 
             lastColor = MultiColor.RGBA32;
         }
