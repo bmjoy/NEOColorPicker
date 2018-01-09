@@ -6,9 +6,9 @@ This is a simple color picker to be used in Unity.
 Currently, it supports RGB, HSV, HSL and the HTML/hexadecimal codes.
 
 ## Installation
-**This project requires the [NEO Utils](https://github.com/NelsonWilliam/NEOUtils/) 1.1 or superior to be previously installed in the Unity Project.** 
+All you have to do is download the latest NEO Color Picker .unitypackage from the [Releases](https://github.com/NelsonWilliam/NEOColorPicker/releases/) page and drag it into your project.
 
-With NEO Utils already installed, all you have to do is download the latest NEO Color Picker .unitypackage from the [Releases](https://github.com/NelsonWilliam/NEOColorPicker/releases/) page and drag it into your project.
+*Note.: This includes [NEO Utils](https://github.com/NelsonWilliam/NEOUtils/) 1.1 and may overwrite any previously installed version. If you want to use a more recent version of NEO Utils, install it after installing NEO Color Picker.**
 
 ## Usage
 To add the color picker to a scene, just drag the Color Picker prefab (found in the Prefabs folder) into a Canvas. The color picker will appear white and without the slides in the Editor – that's fine, the sliders are created at runtime. You can easily modify the UI elements to suit your needs.
