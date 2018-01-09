@@ -139,8 +139,10 @@ GameObject:
   - component: {fileID: 222477412484293740}
   - component: {fileID: 114020526987794648}
   - component: {fileID: 114522177105270814}
+  - component: {fileID: 114649673750592820}
+  - component: {fileID: 114110762356299356}
   m_Layer: 5
-  m_Name: Value Field
+  m_Name: Input Field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -173,6 +175,20 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114110762356299356
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1948683733948846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e57dca6651ebf84492ef46b1f406121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 114763539291393432}
+  destination: {fileID: 114522177105270814}
+  syncsIgnoreEvents: 0
 --- !u!114 &114153069011733832
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -335,9 +351,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vertical: 0
   label: {fileID: 114454822262122758}
-  inputField: {fileID: 114522177105270814}
   slider: {fileID: 114763539291393432}
   sliderBackground: {fileID: 114501809520176884}
+--- !u!114 &114649673750592820
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1948683733948846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e57dca6651ebf84492ef46b1f406121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 114522177105270814}
+  destination: {fileID: 114763539291393432}
+  syncsIgnoreEvents: 0
 --- !u!114 &114719990838522928
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -176,8 +176,8 @@ namespace NEO.NEOColorPicker {
             hslLightSlider = CreateSlider(Field.HSL_Lightness);
             alphaSlider = CreateSlider(Field.Alpha);
 
-            alphaSlider.gameObject.SetActive(alphaSlider);
-            if (!alphaSlider) {
+            alphaSlider.gameObject.SetActive(useAlphaSlider);
+            if (!useAlphaSlider) {
                 Color newColor = currentColor.RGB;
                 newColor.a = 1f;
                 currentColor.RGB = newColor;
@@ -212,14 +212,30 @@ namespace NEO.NEOColorPicker {
         /// Sets the current color based on a HTML-style hexadecimal code.
         /// </summary>
         public void SetHTMLCode(string htmlCode) {
-            ColorRGB = ColorConvert.HTMLtoRGB(htmlCode);
+            Color rgb;
+            if (!ColorConvert.HTMLtoRGB(htmlCode, out rgb)) {
+                RefreshBottomBar();
+                return;
+            }
+
+            //Avoids true internal blacks, whites and grays.
+            //This prevents those colors from "locking" saturation and hue.
+            //The change won't be enough to modify HTML/255/359 values.
+            rgb.r = Mathf.Clamp(rgb.r, 0.0001f, 0.9998f);
+            rgb.g = Mathf.Clamp(rgb.g, 0.0001f, 0.9998f);
+            rgb.b = Mathf.Clamp(rgb.b, 0.0001f, 0.9998f);
+            if (rgb.IsGray()) {
+                rgb.r += 0.0001f;
+            }
+
+            ColorRGB = rgb;
         }
 
         /// <summary>
         /// Gets the HTML-style hexadecimal representation of the current color.
         /// </summary>
         public string GetHTMLCode() {
-            return ColorConvert.RGBtoHTML(ColorRGB, includeAlpha: alphaSlider);
+            return ColorConvert.RGBtoHTML(ColorRGB, includeAlpha: useAlphaSlider);
         }
 
         /// <summary>
@@ -269,7 +285,7 @@ namespace NEO.NEOColorPicker {
 
         private void InitializeBottomBar() {
             buttonAdvanceModel.onClick.AddListener(AdvanceModel);
-            fieldHtmlCode.characterLimit = (alphaSlider ? "#RRGGBBAA".Length : "#RRGGBB".Length);
+            fieldHtmlCode.characterLimit = (useAlphaSlider ? "#RRGGBBAA".Length : "#RRGGBB".Length);
             fieldHtmlCode.onEndEdit.AddListener(SetHTMLCode);
         }
 

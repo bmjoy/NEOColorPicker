@@ -1,4 +1,4 @@
-﻿# NEO Color Picker 1.2
+﻿# NEO Color Picker 1.2.1
 This is a simple color picker to be used in Unity.
 
 ![NEOColorPicker](https://user-images.githubusercontent.com/6721656/34644375-a5a6964c-f31c-11e7-880c-21e592988ce6.png)
@@ -6,7 +6,7 @@ This is a simple color picker to be used in Unity.
 Currently, it supports RGB, HSV, HSL and the HTML/hexadecimal codes.
 
 ## Installation
-**This project requires the [NEO Utils](https://github.com/NelsonWilliam/NEOUtils/) to be previously installed in the Unity Project.** 
+**This project requires the [NEO Utils](https://github.com/NelsonWilliam/NEOUtils/) 1.1 or superior to be previously installed in the Unity Project.** 
 
 With NEO Utils already installed, all you have to do is download the latest NEO Color Picker .unitypackage from the [Releases](https://github.com/NelsonWilliam/NEOColorPicker/releases/) page and drag it into your project.
 

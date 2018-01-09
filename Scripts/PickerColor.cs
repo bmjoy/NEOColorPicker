@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 
 namespace NEO.NEOColorPicker {
-    
+
     /// <summary>
     /// Represents the color of a color picker,
     /// simplifying handling of multiples models/fields.
@@ -44,7 +44,7 @@ namespace NEO.NEOColorPicker {
             SetRGB(rgb);
         }
 
- 
+
         private void SetRGB(Color rgb) {
             this.rgb = rgb;
         }
@@ -65,18 +65,18 @@ namespace NEO.NEOColorPicker {
         private HSVValues GetHSV() {
             return ColorConvert.RGBtoHSV(rgb);
         }
-        
+
         private HSLValues GetHSL() {
             return ColorConvert.RGBtoHSL(rgb);
         }
-     
-           
+
+
         public void SetField(Field field, float value) {
             //Avoids true internal blacks, whites and grays.
             //This prevents those colors from "locking" saturation and hue.
             //The change won't be enough to modify HTML/255/359 values.
             if (value < 0.0001f) value = 0.0001f;
-            if (value > 0.9998f) value = 0.9998f;            
+            if (value > 0.9998f) value = 0.9998f;
 
             switch (field) {
                 case Field.Red:

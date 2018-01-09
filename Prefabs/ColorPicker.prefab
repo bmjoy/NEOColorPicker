@@ -802,7 +802,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vertical: 1
   label: {fileID: 0}
-  inputField: {fileID: 0}
   slider: {fileID: 114864886500281914}
   sliderBackground: {fileID: 114002540463455810}
 --- !u!114 &114639440216798904

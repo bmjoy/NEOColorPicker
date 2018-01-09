@@ -12,8 +12,6 @@ namespace NEO.NEOColorPicker {
         [SerializeField]
         private Text label;
         [SerializeField]
-        private InputField inputField;
-        [SerializeField]
         private Slider slider;
         [SerializeField]
         private RawImage sliderBackground;
@@ -43,22 +41,13 @@ namespace NEO.NEOColorPicker {
                     break;
             }
 
-            //Setups label and input field
+            //Setups label
             if (label != null) label.text = field.Label();
-            if (inputField != null) {
-                inputField.characterLimit = field.InputMax().ToString().Length;
-                inputField.onEndEdit.AddListener(OnFieldChanged);
-            }
 
             //Changes the value to the initial value
             Refresh();
         }
-        
-        private void OnFieldChanged(string input) {
-            float value = field.InputToValue(float.Parse(input));
-            colorPicker.SetColorField(field, value);
-        }
-        
+               
         private void OnSliderChanged(float input) {
             float value = field.InputToValue(input);
             colorPicker.SetColorField(field, value);
@@ -71,7 +60,6 @@ namespace NEO.NEOColorPicker {
             float value = colorPicker.GetColorField(field);
             float input = field.ValueToInput(value);
             slider.SetValue(input, ignoreOnValueChanged: true);
-            if (inputField != null) inputField.SetValue(input.ToString(), ignoreOnValueChanged: true, ignoreOnEndEdit: true);
             if (!useFixedTexture) RegenerateTexture();
         }
 
@@ -81,9 +69,6 @@ namespace NEO.NEOColorPicker {
 
         private void OnDestroy() {
             slider.onValueChanged.RemoveListener(OnSliderChanged);
-            if (inputField != null) {
-                inputField.onEndEdit.RemoveListener(OnFieldChanged);
-            }
         }
     }
 }

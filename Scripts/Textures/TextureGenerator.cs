@@ -50,6 +50,7 @@ namespace NEO.NEOColorPicker {
             texture.wrapMode = TextureWrapMode.Clamp;
 
             //TODO: Use SetPixels instead of SetPixel, for better performance.
+            baseColor.a = 1f;
             for (int i = 0; i < resolution; i++) {
                 Color color = new Color();
                 float perc = i / (float)(resolution - 1);
