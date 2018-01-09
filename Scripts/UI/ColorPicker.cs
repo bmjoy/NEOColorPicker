@@ -1,192 +1,283 @@
-﻿using System.Collections;
+﻿using NEO.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace NEO {
+namespace NEO.NEOColorPicker {
 
     public class ColorPicker : MonoBehaviour {
 
         #region Settings
-        public Color32 initialColor = Color.red;
+        [SerializeField]
+        private Color initialColor = Color.red;
+        [SerializeField]
+        private Model initialModel = Model.RGB;
+        [SerializeField]
+        private bool useAlphaSlider = false;
 
-        public bool showAlphaSlider = false;
+        [Header("UI")]
+        [SerializeField]
+        private GameObject prefabSlider;
+        [SerializeField]
+        private Transform slidersParent;
+        [SerializeField]
+        private Button buttonAdvanceModel;
+        [SerializeField]
+        private Text textCurrentModel;
+        [SerializeField]
+        private Image imageCurrentColor;
+        [SerializeField]
+        private InputField fieldHtmlCode;
+        [SerializeField]
+        private FieldBoxSlider mainBoxSlider;
+        [SerializeField]
+        private FieldSlider mainSlider;
 
-        [Space(8)]
-        [Tooltip("This event is sent when user selects a different color in the "
-            + "slides, or when the the color is changed through code.")]
+        /// <summary>
+        /// Called whenever the current color is modified. Either manually (through code)
+        /// or through the sliders.
+        /// </summary>
+        [Header("Events")]
         public ColorChangedEvent onColorChanged = new ColorChangedEvent();
-
-        [Header("Components")]
-        public Button toggleModeButton;
-        public Text toggleModeText;
-
-        [Space(4)]
-        public Image currentColorImage;
-        public InputField hexField;
-
-        [Space(4)]
-        public ColorPickerBoxSlider mainBoxSlider;
-        public ColorPickerSlider mainSlider;
-
-        [Space(4)]
-        public Transform slidersContainer;
-        public GameObject sliderPrefab;
         #endregion
 
-        #region Sliders
-        private List<ColorPickerSlider> allSliders;
-        private ColorPickerSlider rSlider;
-        private ColorPickerSlider gSlider;
-        private ColorPickerSlider bSlider;
-        private ColorPickerSlider aSlider;
-        private ColorPickerSlider hSlider;
-        private ColorPickerSlider sSlider;
-        private ColorPickerSlider vSlider;
-        #endregion
+        private List<FieldSlider> sliders;
+        private FieldSlider redSlider;
+        private FieldSlider greenSlider;
+        private FieldSlider blueSlider;
+        private FieldSlider alphaSlider;
+        private FieldSlider hueSlider;
+        private FieldSlider hsvSatSlider;
+        private FieldSlider hsvValueSlider;
+        private FieldSlider hslSatSlider;
+        private FieldSlider hslLightSlider;
 
-        private bool onRGBMode = false;
+        private Model currentModel = Model.RGB;
+        private PickerColor currentColor;
+        private Color lastColor;
 
-        private MultiColor multiColor = null;
-        private Color? lastColor = null;
-
+        #region Properties
         /// <summary>
-        /// The multi-mode representation of the currently
-        /// selected color.
+        /// The current color model (RGB, HSV etc.).
+        /// This will determine the sliders being shown.
         /// </summary>
-        public MultiColor MultiColor {
+        public Model CurrentModel {
             get {
-                return multiColor;
-            }
-        }
-
-        /// <summary>
-        /// The currently selected color.
-        /// Changing it manually will always trigger onColorChanged.
-        /// </summary>
-        public Color CurrentColor {
-            get {
-                return MultiColor.RGBA32;
+                return currentModel;
             }
             set {
-                multiColor = new MultiColor(value);
-                UpdateAll(forceEvent: true);
+                currentModel = value;
+                SetEnabledSliders();
             }
         }
+
+        /// <summary>
+        /// The RGB values of the current color.
+        /// </summary>
+        public Color ColorRGB {
+            get {
+                return currentColor.RGB;
+            }
+            set {
+                currentColor.RGB = value;
+                Refresh(forceEvent: true);
+            }
+        }
+
+        /// <summary>
+        /// The HSV values of the current color.
+        /// </summary>
+        public HSVValues ColorHSV {
+            get {
+                return currentColor.HSV;
+            }
+            set {
+                currentColor.HSV = value;
+                Refresh(forceEvent: true);
+            }
+        }
+
+        /// <summary>
+        /// The HSL values of the current color.
+        /// </summary>
+        public HSLValues ColorHSL {
+            get {
+                return currentColor.HSL;
+            }
+            set {
+                currentColor.HSL = value;
+                Refresh(forceEvent: true);
+            }
+        }
+        #endregion
 
         protected ColorPicker() { }
 
-        public void ToggleMode() {
-            onRGBMode = !onRGBMode;
-
-            if (onRGBMode) {
-                toggleModeText.text = "RGB";
-                rSlider.gameObject.SetActive(true);
-                gSlider.gameObject.SetActive(true);
-                bSlider.gameObject.SetActive(true);
-                hSlider.gameObject.SetActive(false);
-                sSlider.gameObject.SetActive(false);
-                vSlider.gameObject.SetActive(false);
-            } else {
-                toggleModeText.text = "HSV";
-                rSlider.gameObject.SetActive(false);
-                gSlider.gameObject.SetActive(false);
-                bSlider.gameObject.SetActive(false);
-                hSlider.gameObject.SetActive(true);
-                sSlider.gameObject.SetActive(true);
-                vSlider.gameObject.SetActive(true);
-            }
-        }
-
-        public void ReadHexCode(string hexCode) {
-            Color newColor = new Color();
-            if (ColorUtility.TryParseHtmlString(hexCode, out newColor)) {
-                multiColor = new MultiColor(newColor);
-                UpdateAll();
-            }
-        }
-
+        #region Main
         private void Start() {
-            multiColor = new MultiColor(initialColor);
+            currentColor = new PickerColor(initialColor);
+            InitializeSliders();
+            currentModel = initialModel;
+            InitializeBottomBar();
 
-            //Main sliders
-            mainBoxSlider.Initialize(ColorField.Saturation, ColorField.Value);
-            mainSlider.Initialize(ColorField.Hue);
-
-            //Subsliders
-            DeleteSliders();
-            allSliders = new List<ColorPickerSlider>();
-            rSlider = CreateSlider(ColorField.Red32);
-            gSlider = CreateSlider(ColorField.Green32);
-            bSlider = CreateSlider(ColorField.Blue32);
-            hSlider = CreateSlider(ColorField.Hue);
-            sSlider = CreateSlider(ColorField.Saturation);
-            vSlider = CreateSlider(ColorField.Value);
-            aSlider = CreateSlider(ColorField.Alpha32);
-
-            aSlider.gameObject.SetActive(showAlphaSlider);
-            if (!showAlphaSlider) {
-                multiColor.SetField(ColorField.Alpha32, ColorField.Alpha32.Max(), recalculate: false);
-            }
-
-            //Bottom bar
-            onRGBMode = !onRGBMode; ToggleMode();
-            toggleModeButton.onClick.AddListener(ToggleMode);
-            hexField.characterLimit = (showAlphaSlider ? "#RRGGBBAA".Length : "#RRGGBB".Length);
-            hexField.onEndEdit.AddListener(ReadHexCode);
-
-            UpdateAll();
+            SetEnabledSliders();
+            Refresh(forceEvent: true);
         }
 
         private void OnDestroy() {
-            toggleModeButton.onClick.RemoveListener(ToggleMode);
-            hexField.onEndEdit.RemoveListener(ReadHexCode);
+            buttonAdvanceModel.onClick.RemoveListener(AdvanceModel);
+            fieldHtmlCode.onEndEdit.RemoveListener(SetHTMLCode);
+        }
+
+        private void Refresh(bool forceEvent = false) {
+            RefreshSliders();
+            RefreshBottomBar();
+
+            bool changedColor = (ColorRGB != lastColor);
+            if (changedColor) {
+                lastColor = ColorRGB;
+            }
+            if (forceEvent || changedColor) {
+                onColorChanged.Invoke(ColorRGB);
+            }
+        }
+
+        /// <summary>
+        /// Changes the value of a field (Red, Alpha, Hue etc.) from the current color.
+        /// </summary>
+        /// <param name="value">The value of the field (0f to 1f).</param>
+        public void SetColorField(Field field, float value) {
+            currentColor.SetField(field, value);
+            Refresh();
+        }
+
+        /// <summary>
+        /// Gets a color field (Red, Alpha, Hue etc.) from the current color.
+        /// </summary>
+        /// <returns>The value of the field (0f to 1f).</returns>
+        public float GetColorField(Field field) {
+            return currentColor.GetField(field);
+        }
+        #endregion
+
+        #region Sliders
+        private void InitializeSliders() {
+            mainBoxSlider.Initialize(Field.HSV_Saturation, Field.HSV_Value, this);
+            mainSlider.Initialize(Field.Hue, this);
+
+            DeleteSliders();
+            redSlider = CreateSlider(Field.Red);
+            greenSlider = CreateSlider(Field.Green);
+            blueSlider = CreateSlider(Field.Blue);
+            hueSlider = CreateSlider(Field.Hue);
+            hsvSatSlider = CreateSlider(Field.HSV_Saturation);
+            hsvValueSlider = CreateSlider(Field.HSV_Value);
+            hslSatSlider = CreateSlider(Field.HSL_Saturation);
+            hslLightSlider = CreateSlider(Field.HSL_Lightness);
+            alphaSlider = CreateSlider(Field.Alpha);
+
+            alphaSlider.gameObject.SetActive(alphaSlider);
+            if (!alphaSlider) {
+                Color newColor = currentColor.RGB;
+                newColor.a = 1f;
+                currentColor.RGB = newColor;
+            }
         }
 
         private void DeleteSliders() {
-            int childCount = slidersContainer.childCount;
+            int childCount = slidersParent.childCount;
             for (int i = 0; i < childCount; i++) {
-                Destroy(slidersContainer.GetChild(i).gameObject);
+                Destroy(slidersParent.GetChild(i).gameObject);
             }
+            sliders = new List<FieldSlider>();
         }
 
-        private ColorPickerSlider CreateSlider(ColorField field) {
-            GameObject newObj = Instantiate(sliderPrefab, slidersContainer);
-            ColorPickerSlider newSlider = newObj.GetComponent<ColorPickerSlider>();
-            newSlider.colorPicker = this;
-            newSlider.Initialize(field);
-            allSliders.Add(newSlider);
+        private FieldSlider CreateSlider(Field field) {
+            GameObject newObj = Instantiate(prefabSlider, slidersParent);
+            FieldSlider newSlider = newObj.GetComponent<FieldSlider>();
+            newSlider.Initialize(field, this);
+            sliders.Add(newSlider);
             return newSlider;
         }
 
-        public void SetColorField(ColorField field, int value, bool recalculate = true) {
-            MultiColor.SetField(field, value);
-            if (recalculate) UpdateAll();
+        private void RefreshSliders() {
+            mainBoxSlider.Refresh();
+            mainSlider.Refresh();
+            foreach (FieldSlider slider in sliders) slider.Refresh();
+        }
+        #endregion
+
+        #region Bottom Bar
+        /// <summary>
+        /// Sets the current color based on a HTML-style hexadecimal code.
+        /// </summary>
+        public void SetHTMLCode(string htmlCode) {
+            ColorRGB = ColorConvert.HTMLtoRGB(htmlCode);
         }
 
-        private void UpdateAll(bool forceEvent = false) {
-            UpdateSliders();
-            UpdateBottomBar();
+        /// <summary>
+        /// Gets the HTML-style hexadecimal representation of the current color.
+        /// </summary>
+        public string GetHTMLCode() {
+            return ColorConvert.RGBtoHTML(ColorRGB, includeAlpha: alphaSlider);
+        }
 
-            bool changedColor = (!lastColor.HasValue || MultiColor.RGBA32 != lastColor);
-            if (forceEvent || changedColor) {
-                onColorChanged.Invoke(MultiColor.RGBA32);
+        /// <summary>
+        /// Advances the current color model (RGB, HSV etc.) to the next model possible.
+        /// </summary>
+        public void AdvanceModel() {
+            CurrentModel = CurrentModel.Next();
+        }
+
+        private void SetEnabledSliders() {
+            switch (currentModel) {
+                case Model.RGB:
+                    textCurrentModel.text = "RGB";
+                    redSlider.gameObject.SetActive(true);
+                    greenSlider.gameObject.SetActive(true);
+                    blueSlider.gameObject.SetActive(true);
+                    hueSlider.gameObject.SetActive(false);
+                    hsvSatSlider.gameObject.SetActive(false);
+                    hsvValueSlider.gameObject.SetActive(false);
+                    hslSatSlider.gameObject.SetActive(false);
+                    hslLightSlider.gameObject.SetActive(false);
+                    break;
+                case Model.HSV:
+                    textCurrentModel.text = "HSV";
+                    redSlider.gameObject.SetActive(false);
+                    greenSlider.gameObject.SetActive(false);
+                    blueSlider.gameObject.SetActive(false);
+                    hueSlider.gameObject.SetActive(true);
+                    hsvSatSlider.gameObject.SetActive(true);
+                    hsvValueSlider.gameObject.SetActive(true);
+                    hslSatSlider.gameObject.SetActive(false);
+                    hslLightSlider.gameObject.SetActive(false);
+                    break;
+                case Model.HSL:
+                    textCurrentModel.text = "HSL";
+                    redSlider.gameObject.SetActive(false);
+                    greenSlider.gameObject.SetActive(false);
+                    blueSlider.gameObject.SetActive(false);
+                    hueSlider.gameObject.SetActive(true);
+                    hsvSatSlider.gameObject.SetActive(false);
+                    hsvValueSlider.gameObject.SetActive(false);
+                    hslSatSlider.gameObject.SetActive(true);
+                    hslLightSlider.gameObject.SetActive(true);
+                    break;
             }
-
-            lastColor = MultiColor.RGBA32;
         }
 
-        private void UpdateSliders() {
-            mainBoxSlider.UpdateValues();
-            mainSlider.UpdateValues();
-            foreach (ColorPickerSlider slider in allSliders) slider.UpdateValues();
+        private void InitializeBottomBar() {
+            buttonAdvanceModel.onClick.AddListener(AdvanceModel);
+            fieldHtmlCode.characterLimit = (alphaSlider ? "#RRGGBBAA".Length : "#RRGGBB".Length);
+            fieldHtmlCode.onEndEdit.AddListener(SetHTMLCode);
         }
 
-        private void UpdateBottomBar() {
-            currentColorImage.color = MultiColor.RGBA32;
-            hexField.SetValue(MultiColor.RGBA32.GetHexCode(includeAlpha: showAlphaSlider),
-                ignoreOnEndEdit: true, ignoreOnValueChanged: true);
+        private void RefreshBottomBar() {
+            imageCurrentColor.color = ColorRGB;
+            fieldHtmlCode.SetValue(GetHTMLCode(), ignoreOnEndEdit: true, ignoreOnValueChanged: true);
         }
+        #endregion
 
     }
 

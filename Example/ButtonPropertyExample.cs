@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace NEO {
+namespace NEO.NEOColorPicker {
 
     public class ButtonPropertyExample : MonoBehaviour {
 
@@ -9,13 +9,13 @@ namespace NEO {
         public Image imageToChange;
             
         public void UpdateColor() {
-            imageToChange.color = colorPicker.CurrentColor;
+            imageToChange.color = colorPicker.ColorRGB;
         }
 
         public void RandomizeColor() {
-            colorPicker.CurrentColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f),
-                Random.Range(0f, 1f), Random.Range(0f, 1f));
+            colorPicker.ColorRGB = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
         }
 
     }
+
 }

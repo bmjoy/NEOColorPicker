@@ -1,14 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace NEO {
+namespace NEO.NEOColorPicker {
+
     public class CubeEventExample : MonoBehaviour {
 
+        public ColorPicker picker;
         private Renderer rend;
 
         private void Awake() {
             rend = GetComponent<Renderer>();
+        }
+
+        private void Start() {
+            picker.onColorChanged.AddListener(SetColor);
+            SetColor(picker.ColorRGB);
         }
 
         private void Update() {
@@ -20,5 +25,10 @@ namespace NEO {
             rend.material.color = color;
         }
 
+        private void OnDestroy() {
+            picker.onColorChanged.RemoveListener(SetColor);
+        }
+
     }
+
 }

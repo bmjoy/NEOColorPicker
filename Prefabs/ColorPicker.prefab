@@ -470,7 +470,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1196893610304752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37c44bc94a9a7f241b5b552f3ff89458, type: 3}
+  m_Script: {fileID: 11500000, guid: 9fa4db00ff77b12458ec789393c097c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -500,14 +500,14 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_HandleRect: {fileID: 224019180508889792}
   m_MinValue: 0
-  m_MaxValue: 0.999
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0.5
   m_ValueY: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.BoxSlider+BoxSliderEvent, Assembly-CSharp, Version=0.0.0.0,
+    m_TypeName: NEO.Utils.BoxSlider+BoxSliderEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114220839789706682
 MonoBehaviour:
@@ -805,7 +805,6 @@ MonoBehaviour:
   inputField: {fileID: 0}
   slider: {fileID: 114864886500281914}
   sliderBackground: {fileID: 114002540463455810}
-  colorPicker: {fileID: 114639440216798904}
 --- !u!114 &114639440216798904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -817,35 +816,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af69dffae6f08ca4dad3fb2c52d4d58c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialColor:
-    serializedVersion: 2
-    rgba: 4293532292
-  showAlphaSlider: 1
-  onColorChanged:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetColor
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: ColorChangedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  toggleModeButton: {fileID: 114777630449199910}
-  toggleModeText: {fileID: 114563488546921994}
-  currentColorImage: {fileID: 114409320925743946}
-  hexField: {fileID: 114731486987449542}
+  initialColor: {r: 0.45223686, g: 0, b: 0.88235295, a: 0.78431374}
+  initialModel: 2
+  useAlphaSlider: 1
+  prefabSlider: {fileID: 1467072503049406, guid: ccdd238b9f5bc9648811fc0a9efd9406,
+    type: 2}
+  slidersParent: {fileID: 224917875428314404}
+  buttonAdvanceModel: {fileID: 114777630449199910}
+  textCurrentModel: {fileID: 114563488546921994}
+  imageCurrentColor: {fileID: 114409320925743946}
+  fieldHtmlCode: {fileID: 114731486987449542}
   mainBoxSlider: {fileID: 114821317667261710}
   mainSlider: {fileID: 114619162823873880}
-  slidersContainer: {fileID: 224917875428314404}
-  sliderPrefab: {fileID: 1467072503049406, guid: ccdd238b9f5bc9648811fc0a9efd9406,
-    type: 2}
+  onColorChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NEO.NEOColorPicker.ColorChangedEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114661892281527086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1064,7 +1051,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aaed453bb1e2cf45a970143ae8e80ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorPicker: {fileID: 114639440216798904}
   boxSlider: {fileID: 114214030621571408}
   sliderBackground: {fileID: 114771894700864172}
 --- !u!114 &114825242748368006

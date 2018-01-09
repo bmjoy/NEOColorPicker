@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable]
-public class ColorChangedEvent : UnityEvent<Color> { }
+namespace NEO.NEOColorPicker {
+
+    [System.Serializable]
+    public class ColorChangedEvent : UnityEvent<Color> { }
+
+}
