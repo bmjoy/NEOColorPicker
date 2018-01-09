@@ -24,6 +24,7 @@ The ColorPicker class allows you to:
 * Get and set the color model (RGB, HSV etc.) being currently used, using the property ``CurrentModel``. This is what sets what sliders will be shown.
 * Advance the current color model to the next one, using the method ``AdvanceModel``.
 * Add a listener to the ``onColorChanged`` event. The event is invoked whenever the color is changed (using the sliders or code). You can also add listeners through the Inspector:
+
 ![Inspector](https://user-images.githubusercontent.com/6721656/34712037-9bcbf200-f508-11e7-8dbd-057d1cb79fd2.png)
 
 An example scene can be found in the Example folder.
