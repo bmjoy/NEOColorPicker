@@ -24,6 +24,7 @@ The ColorPicker class allows you to:
 * Use ``CurrentModel`` and ``AdvanceModel`` to get, set or advance the color model (e.g. HSL) being used by the color picker.
 * Use ``UsingAlphaSlider`` to get and set the visibility of the alpha slider.
 * Add listeners to `onColorChanged` to automatically invoke them when the color picker's current color changes. This can also be done through the Inspector:
+
 ![Inspector](https://user-images.githubusercontent.com/6721656/34712037-9bcbf200-f508-11e7-8dbd-057d1cb79fd2.png)
 
 An example scene can be found in the Example folder.
