@@ -139,8 +139,6 @@ GameObject:
   - component: {fileID: 222477412484293740}
   - component: {fileID: 114020526987794648}
   - component: {fileID: 114522177105270814}
-  - component: {fileID: 114649673750592820}
-  - component: {fileID: 114110762356299356}
   m_Layer: 5
   m_Name: Input Field
   m_TagString: Untagged
@@ -175,20 +173,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114110762356299356
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1948683733948846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e57dca6651ebf84492ef46b1f406121, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 114763539291393432}
-  destination: {fileID: 114522177105270814}
-  syncsIgnoreEvents: 0
 --- !u!114 &114153069011733832
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -352,21 +336,8 @@ MonoBehaviour:
   vertical: 0
   label: {fileID: 114454822262122758}
   slider: {fileID: 114763539291393432}
+  inputField: {fileID: 114522177105270814}
   sliderBackground: {fileID: 114501809520176884}
---- !u!114 &114649673750592820
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1948683733948846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e57dca6651ebf84492ef46b1f406121, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 114522177105270814}
-  destination: {fileID: 114763539291393432}
-  syncsIgnoreEvents: 0
 --- !u!114 &114719990838522928
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -455,7 +426,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
+    m_FontSize: 19
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -651,6 +622,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1}
-  m_SizeDelta: {x: -10, y: -8}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

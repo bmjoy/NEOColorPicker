@@ -45,7 +45,19 @@ namespace NEO.NEOColorPicker {
         }
 
 
-        private void SetRGB(Color rgb) {
+        private void SetRGB(Color rgb, bool checkValues = true) {
+            if (checkValues) {
+                //Avoids true internal blacks, whites and grays.
+                //This prevents those colors from "locking" saturation and hue.
+                //The change won't be enough to modify HTML/255/359 values.
+                rgb.r = Mathf.Clamp(rgb.r, 0.0010f, 0.9990f);
+                rgb.g = Mathf.Clamp(rgb.g, 0.0010f, 0.9990f);
+                rgb.b = Mathf.Clamp(rgb.b, 0.0010f, 0.9990f);
+                if (rgb.IsGray()) {
+                    rgb.r += 0.0001f;
+                }
+            }
+
             this.rgb = rgb;
         }
 
@@ -72,48 +84,50 @@ namespace NEO.NEOColorPicker {
 
 
         public void SetField(Field field, float value) {
+            Color newRgb = rgb;
             //Avoids true internal blacks, whites and grays.
             //This prevents those colors from "locking" saturation and hue.
             //The change won't be enough to modify HTML/255/359 values.
-            if (value < 0.0001f) value = 0.0001f;
-            if (value > 0.9998f) value = 0.9998f;
+            if (value < 0.0010f) value = 0.0010f;
+            if (value > 0.9990f) value = 0.9990f;
 
             switch (field) {
                 case Field.Red:
                     //This prevents internal grays through RGB. Check note above.
                     if (value.EqualsAll(RGB.g, RGB.b)) value += 0.0001f;
-                    RGB = ColorConvert.ChangeRGB(RGB, newR: value);
+                    newRgb = ColorConvert.ChangeRGB(RGB, newR: value);
                     break;
                 case Field.Green:
                     //This prevents internal grays through RGB. Check note above.
                     if (value.EqualsAll(RGB.r, RGB.b)) value += 0.0001f;
-                    RGB = ColorConvert.ChangeRGB(RGB, newG: value);
+                    newRgb = ColorConvert.ChangeRGB(RGB, newG: value);
                     break;
                 case Field.Blue:
                     //This prevents internal grays through RGB. Check note above.
                     if (value.EqualsAll(RGB.g, RGB.r)) value += 0.0001f;
-                    RGB = ColorConvert.ChangeRGB(RGB, newB: value);
+                    newRgb = ColorConvert.ChangeRGB(RGB, newB: value);
                     break;
                 case Field.Alpha:
-                    RGB = ColorConvert.ChangeRGB(RGB, newA:
-                        value);
+                    newRgb = ColorConvert.ChangeRGB(RGB, newA: value);
                     break;
                 case Field.Hue:
-                    RGB = ColorConvert.ChangeHSV(RGB, newH: value);
+                    newRgb = ColorConvert.ChangeHSV(RGB, newH: value);
                     break;
                 case Field.HSV_Saturation:
-                    RGB = ColorConvert.ChangeHSV(RGB, newS: value);
+                    newRgb = ColorConvert.ChangeHSV(RGB, newS: value);
                     break;
                 case Field.HSV_Value:
-                    RGB = ColorConvert.ChangeHSV(RGB, newV: value);
+                    newRgb = ColorConvert.ChangeHSV(RGB, newV: value);
                     break;
                 case Field.HSL_Saturation:
-                    RGB = ColorConvert.ChangeHSL(RGB, newS: value);
+                    newRgb = ColorConvert.ChangeHSL(RGB, newS: value);
                     break;
                 case Field.HSL_Lightness:
-                    RGB = ColorConvert.ChangeHSL(RGB, newL: value);
+                    newRgb = ColorConvert.ChangeHSL(RGB, newL: value);
                     break;
             }
+
+            SetRGB(newRgb, checkValues: false);
         }
 
         public float GetField(Field field) {

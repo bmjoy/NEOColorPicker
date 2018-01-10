@@ -13,7 +13,7 @@ namespace NEO.NEOColorPicker {
         [SerializeField]
         private Model initialModel = Model.RGB;
         [SerializeField]
-        private bool useAlphaSlider = false;
+        private bool initialAlphaSlider = false;
 
         [Header("UI")]
         [SerializeField]
@@ -53,10 +53,20 @@ namespace NEO.NEOColorPicker {
         private FieldSlider hslLightSlider;
 
         private Model currentModel = Model.RGB;
+        private bool usingAlphaSlider;
         private PickerColor currentColor;
-        private Color lastColor;
 
         #region Properties
+        public bool UsingAlphaSlider {
+            get {
+                return usingAlphaSlider;
+            }
+            set {
+                usingAlphaSlider = value;
+                SetAlphaSlider();
+            }
+        }
+
         /// <summary>
         /// The current color model (RGB, HSV etc.).
         /// This will determine the sliders being shown.
@@ -67,7 +77,7 @@ namespace NEO.NEOColorPicker {
             }
             set {
                 currentModel = value;
-                SetEnabledSliders();
+                SetModel();
             }
         }
 
@@ -80,7 +90,7 @@ namespace NEO.NEOColorPicker {
             }
             set {
                 currentColor.RGB = value;
-                Refresh(forceEvent: true);
+                Refresh();
             }
         }
 
@@ -93,7 +103,7 @@ namespace NEO.NEOColorPicker {
             }
             set {
                 currentColor.HSV = value;
-                Refresh(forceEvent: true);
+                Refresh();
             }
         }
 
@@ -106,7 +116,7 @@ namespace NEO.NEOColorPicker {
             }
             set {
                 currentColor.HSL = value;
-                Refresh(forceEvent: true);
+                Refresh();
             }
         }
         #endregion
@@ -116,12 +126,15 @@ namespace NEO.NEOColorPicker {
         #region Main
         private void Start() {
             currentColor = new PickerColor(initialColor);
-            InitializeSliders();
+            usingAlphaSlider = initialAlphaSlider;
             currentModel = initialModel;
+
+            InitializeSliders();
             InitializeBottomBar();
 
-            SetEnabledSliders();
-            Refresh(forceEvent: true);
+            SetModel();
+            SetAlphaSlider();
+            Refresh();
         }
 
         private void OnDestroy() {
@@ -129,17 +142,10 @@ namespace NEO.NEOColorPicker {
             fieldHtmlCode.onEndEdit.RemoveListener(SetHTMLCode);
         }
 
-        private void Refresh(bool forceEvent = false) {
+        private void Refresh() {
             RefreshSliders();
             RefreshBottomBar();
-
-            bool changedColor = (ColorRGB != lastColor);
-            if (changedColor) {
-                lastColor = ColorRGB;
-            }
-            if (forceEvent || changedColor) {
-                onColorChanged.Invoke(ColorRGB);
-            }
+            onColorChanged.Invoke(ColorRGB);
         }
 
         /// <summary>
@@ -175,13 +181,6 @@ namespace NEO.NEOColorPicker {
             hslSatSlider = CreateSlider(Field.HSL_Saturation);
             hslLightSlider = CreateSlider(Field.HSL_Lightness);
             alphaSlider = CreateSlider(Field.Alpha);
-
-            alphaSlider.gameObject.SetActive(useAlphaSlider);
-            if (!useAlphaSlider) {
-                Color newColor = currentColor.RGB;
-                newColor.a = 1f;
-                currentColor.RGB = newColor;
-            }
         }
 
         private void DeleteSliders() {
@@ -205,6 +204,15 @@ namespace NEO.NEOColorPicker {
             mainSlider.Refresh();
             foreach (FieldSlider slider in sliders) slider.Refresh();
         }
+        
+        private void SetAlphaSlider() {
+            alphaSlider.gameObject.SetActive(usingAlphaSlider);
+            if (!usingAlphaSlider) {
+                SetColorField(Field.Alpha, 1f);
+            }
+
+            RefreshBottomBar();
+        }
         #endregion
 
         #region Bottom Bar
@@ -218,16 +226,6 @@ namespace NEO.NEOColorPicker {
                 return;
             }
 
-            //Avoids true internal blacks, whites and grays.
-            //This prevents those colors from "locking" saturation and hue.
-            //The change won't be enough to modify HTML/255/359 values.
-            rgb.r = Mathf.Clamp(rgb.r, 0.0001f, 0.9998f);
-            rgb.g = Mathf.Clamp(rgb.g, 0.0001f, 0.9998f);
-            rgb.b = Mathf.Clamp(rgb.b, 0.0001f, 0.9998f);
-            if (rgb.IsGray()) {
-                rgb.r += 0.0001f;
-            }
-
             ColorRGB = rgb;
         }
 
@@ -235,7 +233,7 @@ namespace NEO.NEOColorPicker {
         /// Gets the HTML-style hexadecimal representation of the current color.
         /// </summary>
         public string GetHTMLCode() {
-            return ColorConvert.RGBtoHTML(ColorRGB, includeAlpha: useAlphaSlider);
+            return ColorConvert.RGBtoHTML(ColorRGB, includeAlpha: usingAlphaSlider);
         }
 
         /// <summary>
@@ -245,7 +243,7 @@ namespace NEO.NEOColorPicker {
             CurrentModel = CurrentModel.Next();
         }
 
-        private void SetEnabledSliders() {
+        private void SetModel() {
             switch (currentModel) {
                 case Model.RGB:
                     textCurrentModel.text = "RGB";
@@ -285,12 +283,12 @@ namespace NEO.NEOColorPicker {
 
         private void InitializeBottomBar() {
             buttonAdvanceModel.onClick.AddListener(AdvanceModel);
-            fieldHtmlCode.characterLimit = (useAlphaSlider ? "#RRGGBBAA".Length : "#RRGGBB".Length);
             fieldHtmlCode.onEndEdit.AddListener(SetHTMLCode);
         }
 
         private void RefreshBottomBar() {
             imageCurrentColor.color = ColorRGB;
+            fieldHtmlCode.characterLimit = (usingAlphaSlider ? "#RRGGBBAA".Length : "#RRGGBB".Length);
             fieldHtmlCode.SetValue(GetHTMLCode(), ignoreOnEndEdit: true, ignoreOnValueChanged: true);
         }
         #endregion
